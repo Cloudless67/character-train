@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { hiraganasGroup } from '$lib/hiraganas';
 	import { quizPool } from '../../store';
 
-	export let column: keyof typeof hiraganasGroup;
+	export let group: Record<string, string[]>;
+	export let column: string;
 
 	let checkBox: HTMLButtonElement;
 
-	$: checked = hiraganasGroup[column].every($quizPool.has.bind($quizPool));
+	$: checked = group[column].every($quizPool.has.bind($quizPool));
 </script>
 
 <dd class="mx-1">
@@ -18,16 +18,16 @@
 		on:click={() => {
 			checked = !checked;
 			if (checked) {
-				hiraganasGroup[column].forEach($quizPool.add.bind($quizPool));
+				group[column].forEach($quizPool.add.bind($quizPool));
 			} else {
-				hiraganasGroup[column].forEach($quizPool.delete.bind($quizPool));
+				group[column].forEach($quizPool.delete.bind($quizPool));
 			}
 			$quizPool = $quizPool;
 		}}
 		>{column}
 	</button>
 	<ul class="list-group">
-		{#each hiraganasGroup[column] as hiragana, i}
+		{#each group[column] as hiragana, i}
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<li

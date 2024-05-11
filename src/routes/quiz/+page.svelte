@@ -1,24 +1,23 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { hiraganas } from '$lib/hiraganas';
 	import { randomizeArray } from '$lib/utils/randomizeArray';
+	import { answerSheet } from '../../store';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
-	let quiz = '' as keyof typeof hiraganas;
-	let quizPool = [] as (keyof typeof hiraganas)[];
+	let quiz = '';
+	let quizPool = [] as string[];
 	let quizIndex = 0;
-	let finished = false;
 
 	onMount(async () => {
 		const query = $page.url.searchParams.get('pool')?.split(',') ?? [];
-		quizPool = randomizeArray(query) as (keyof typeof hiraganas)[];
+		quizPool = randomizeArray(query);
 		quiz = quizPool[0];
 	});
 
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
 		const target = e.target as HTMLInputElement;
-		if (hiraganas[quiz] !== target.value) return;
+		if ($answerSheet[quiz] !== target.value) return;
 
 		quizIndex++;
 		quiz = quizPool[quizIndex] ?? '';
