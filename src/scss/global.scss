@@ -1,0 +1,31 @@
+// Custom settings
+$primary: #2f7bc8;
+$light: #b5d8f8;
+$dark: #004ba0;
+
+$font-family-sans-serif: 맑은고딕, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans',
+	sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/root';
+
+@import 'bootstrap/scss/utilities';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/type';
+@import 'bootstrap/scss/images';
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+@import 'bootstrap/scss/helpers';
+
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/list-group';
+
+@import 'bootstrap/scss/utilities/api';
+
+// Custom
+@import './custom.scss';
