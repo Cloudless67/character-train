@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 
 	let quiz = '';
+	let inputValue = '';
 	let quizPool = [] as string[];
 	let quizIndex = 0;
 
@@ -21,7 +22,7 @@
 
 		quizIndex++;
 		quiz = quizPool[quizIndex] ?? '';
-		target.value = '';
+		inputValue = '';
 
 		if (quizIndex === quizPool.length) {
 			alert('Quiz finished!');
@@ -40,6 +41,7 @@
 			name="answer"
 			id="answer"
 			autofocus
+			bind:value={inputValue}
 			on:input={handleInput}
 		/>
 	</div>
