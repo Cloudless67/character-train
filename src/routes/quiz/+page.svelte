@@ -6,9 +6,11 @@
 	import { goto } from '$app/navigation';
 
 	let quiz = '';
-	let inputValue = '';
+	let value = '';
 	let quizPool = [] as string[];
 	let quizIndex = 0;
+	let input: HTMLInputElement;
+	let hidden: HTMLInputElement;
 
 	onMount(async () => {
 		const query = $page.url.searchParams.get('pool')?.split(',') ?? [];
@@ -22,7 +24,15 @@
 
 		quizIndex++;
 		quiz = quizPool[quizIndex] ?? '';
-		inputValue = '';
+		value = '';
+		// if iOS, blur the input to hide the keyboard
+		if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+			input.blur();
+			hidden.focus();
+			setTimeout(() => {
+				input.focus();
+			}, 200);
+		}
 
 		if (quizIndex === quizPool.length) {
 			alert('Quiz finished!');
@@ -36,14 +46,16 @@
 	<div>
 		<!-- svelte-ignore a11y-autofocus -->
 		<input
+			bind:this={input}
 			class="form-control"
 			type="text"
 			name="answer"
 			id="answer"
 			autofocus
-			bind:value={inputValue}
+			bind:value
 			on:input={handleInput}
 		/>
+		<input bind:this={hidden} type="hidden" name="hidden" />
 	</div>
 </main>
 
