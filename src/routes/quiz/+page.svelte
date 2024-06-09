@@ -10,7 +10,8 @@
 	let quizPool = [] as string[];
 	let quizIndex = 0;
 	let input: HTMLInputElement;
-	let hidden: HTMLInputElement;
+	let correct = false;
+	let exposeAnswer = false;
 
 	onMount(async () => {
 		const query = $page.url.searchParams.get('pool')?.split(',') ?? [];
@@ -23,45 +24,72 @@
 		if (!target.value) return;
 		if (!$answerSheet[quiz].includes(target.value)) return;
 
-		quizIndex++;
-		quiz = quizPool[quizIndex] ?? '';
-		if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-			console.log('iOS detected');
+		correct = true;
+		value = '';
 
-			const newInput = document.createElement('input');
-			newInput.type = 'text';
-			document.body.appendChild(newInput);
-			newInput.focus();
-		}
-
-		if (quizIndex === quizPool.length) {
+		if (quizIndex + 1 === quizPool.length) {
 			alert('Quiz finished!');
 			goto('/');
+			return;
 		}
+
+		setTimeout(() => {
+			quizIndex++;
+			quiz = quizPool[quizIndex];
+			correct = false;
+			input.focus();
+		}, 300);
 	};
+
+	function showAnswer() {
+		exposeAnswer = true;
+		setTimeout(() => {
+			exposeAnswer = false;
+		}, 700);
+	}
 </script>
 
 <main class="d-flex flex-column justify-content-center align-items-center">
 	<div class="quiz">{quiz}</div>
-	<div>
-		<form>
-			<!-- svelte-ignore a11y-autofocus -->
-			<input
-				bind:this={input}
-				class="form-control"
-				type="text"
-				name="answer"
-				id={quiz}
-				autofocus
-				bind:value
-				on:input={handleInput}
-			/>
-		</form>
-	</div>
+	<div class="answer" class:expose={exposeAnswer}>{$answerSheet[quiz]}</div>
+	{#if correct}
+		<img src="/check.svg" alt="correct" />
+	{:else}
+		<div>
+			<form class="d-flex">
+				<!-- svelte-ignore a11y-autofocus -->
+				<input
+					bind:this={input}
+					class="form-control"
+					type="text"
+					name="answer"
+					id={quiz}
+					autofocus
+					bind:value
+					on:input={handleInput}
+				/>
+				<button class="btn" on:click={showAnswer}>정답</button>
+			</form>
+		</div>
+	{/if}
 </main>
 
 <style>
 	.quiz {
 		font-size: 5rem;
+	}
+
+	.answer {
+		opacity: 0;
+		transition: opacity 0.5s ease-out;
+	}
+
+	.expose {
+		opacity: 1;
+	}
+
+	.btn {
+		margin-left: 1rem;
+		width: 5rem;
 	}
 </style>
