@@ -19,6 +19,13 @@
 		quiz = quizPool[0];
 	});
 
+	$: {
+		if (!correct) {
+			input?.focus();
+			input?.setAttribute('autofocus', 'true');
+		}
+	}
+
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
 		const target = e.target as HTMLInputElement;
 		if (!target.value) return;
@@ -37,7 +44,6 @@
 			quizIndex++;
 			quiz = quizPool[quizIndex];
 			correct = false;
-			input.focus();
 		}, 300);
 	};
 

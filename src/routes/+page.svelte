@@ -3,6 +3,12 @@
 	import { gatakanas, gatakanasGroup } from '$lib/gatakanas';
 	import { hiraganas, hiraganasGroup } from '$lib/hiraganas';
 	import { answerSheet, quizPool } from '../store';
+
+	function setAnswerSheet() {
+		if ($quizPool.size) {
+			$answerSheet = Object.assign(hiraganas, gatakanas);
+		}
+	}
 </script>
 
 <main class="d-flex flex-column justify-content-center align-items-center px-4">
