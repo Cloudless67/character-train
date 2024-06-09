@@ -1,18 +1,26 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { quizPool } from '../../store';
 
 	export let group: Record<string, string[]>;
 	export let column: string;
 
 	let checkBox: HTMLButtonElement;
+	let isMobile = true;
+
+	onMount(() => {
+		isMobile = window.innerWidth < 768;
+	});
 
 	$: checked = group[column].every($quizPool.has.bind($quizPool));
 </script>
 
-<dd class="mx-1">
+<dd class="mx-1" class:horizontal={isMobile}>
 	<button
 		bind:this={checkBox}
-		class="btn mb-2 w-100"
+		class="btn"
+		class:mb-2={!isMobile}
+		class:me-2={isMobile}
 		class:selected={checked}
 		id={column}
 		on:click={() => {
@@ -26,7 +34,7 @@
 		}}
 		>{column}
 	</button>
-	<ul class="list-group">
+	<ul class="list-group" class:list-group-horizontal={isMobile}>
 		{#each group[column] as hiragana, i}
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -52,5 +60,15 @@
 	.selected {
 		background-color: #007bff;
 		color: white;
+	}
+
+	.horizontal {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.btn {
+		width: 48px;
+		height: 42px;
 	}
 </style>

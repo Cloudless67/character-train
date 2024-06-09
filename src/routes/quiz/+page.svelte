@@ -20,18 +20,18 @@
 
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
 		const target = e.target as HTMLInputElement;
-		if ($answerSheet[quiz] !== target.value) return;
+		if (!target.value) return;
+		if (!$answerSheet[quiz].includes(target.value)) return;
 
 		quizIndex++;
 		quiz = quizPool[quizIndex] ?? '';
-		value = '';
-		// if iOS, blur the input to hide the keyboard
 		if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-			input.blur();
-			hidden.focus();
-			setTimeout(() => {
-				input.focus();
-			}, 200);
+			console.log('iOS detected');
+
+			const newInput = document.createElement('input');
+			newInput.type = 'text';
+			document.body.appendChild(newInput);
+			newInput.focus();
 		}
 
 		if (quizIndex === quizPool.length) {
@@ -44,18 +44,19 @@
 <main class="d-flex flex-column justify-content-center align-items-center">
 	<div class="quiz">{quiz}</div>
 	<div>
-		<!-- svelte-ignore a11y-autofocus -->
-		<input
-			bind:this={input}
-			class="form-control"
-			type="text"
-			name="answer"
-			id="answer"
-			autofocus
-			bind:value
-			on:input={handleInput}
-		/>
-		<input bind:this={hidden} type="hidden" name="hidden" />
+		<form>
+			<!-- svelte-ignore a11y-autofocus -->
+			<input
+				bind:this={input}
+				class="form-control"
+				type="text"
+				name="answer"
+				id={quiz}
+				autofocus
+				bind:value
+				on:input={handleInput}
+			/>
+		</form>
 	</div>
 </main>
 
