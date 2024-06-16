@@ -11,6 +11,18 @@
 	}
 </script>
 
+<svelte:head>
+	<title>히라가나와 가타카나</title>
+	<meta name="description" content="히라가나와 가타카나를 학습하고 테스트해보세요." />
+	<meta name="keywords" content="히라가나, 가타카나, 일본어, 일본어 학습" />
+	<meta property="og:title" content="히라가나와 가타카나" />
+	<meta property="og:description" content="히라가나와 가타카나를 학습하고 테스트해보세요." />
+	<meta property="og:image" content="/og-image.png" />
+	<meta property="og:url" content="https://character-train.cloudless.blog" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="히라가나와 가타카나" />
+	<meta property="og:locale" content="ko_KR" />
+</svelte:head>
 <main class="d-flex flex-column justify-content-center align-items-center px-4">
 	<h1>히라가나</h1>
 	<GanaList group={hiraganasGroup} />
